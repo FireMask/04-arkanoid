@@ -5,7 +5,8 @@ const overlay = document.getElementById( 'overlay' );
 const overlayTitle = document.getElementById( 'overlay-title' );
 const restartBtn = document.getElementById( 'restart-btn' );
 
-const paddle = { x: ( canvas.width - 162 ) / 2, y: canvas.height - 30, width: 162, height: 14 };
+const PADDLE_START_X = ( canvas.width - 162 ) / 2;
+const paddle = { x: PADDLE_START_X, y: canvas.height - 30, width: 162, height: 14 };
 
 canvas.addEventListener( 'mousemove', ( e ) => {
   const rect = canvas.getBoundingClientRect();
@@ -136,7 +137,29 @@ function endGame( state ) {
   }
 }
 
+function advanceLevel() {
+  currentLevelIndex++;
+  blocks = createBlocks();
+
+  paddle.x = PADDLE_START_X;
+
+  ball.x = canvas.width / 2;
+  ball.y = paddle.y - 20;
+  ball.speed = ball.baseSpeed;
+  ball.dx = ball.speed * Math.cos( -Math.PI / 3 );
+  ball.dy = ball.speed * Math.sin( -Math.PI / 3 );
+
+  gameState = 'playing';
+}
+
 function update() {
+  if ( gameState === 'levelTransition' ) {
+    if ( performance.now() - levelTransitionStartTime >= LEVEL_TRANSITION_DURATION ) {
+      advanceLevel();
+    }
+    return;
+  }
+
   if ( gameState !== 'playing' ) return;
 
   ball.x += ball.dx;
