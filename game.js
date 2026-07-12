@@ -15,6 +15,18 @@ canvas.addEventListener( 'mousemove', ( e ) => {
 
 const ball = { x: 0, y: 0, radius: 8, baseSpeed: 4, speed: 4, dx: 0, dy: 0 };
 
+const bounceSound = new Audio( 'assets/sounds/ball-bounce.mp3' );
+const breakSound = new Audio( 'assets/sounds/break-sound.mp3' );
+let audioUnlocked = false;
+
+canvas.addEventListener( 'mousemove', () => { audioUnlocked = true; }, { once: true } );
+
+function playSound( audio ) {
+  if ( !audioUnlocked ) return;
+  audio.currentTime = 0;
+  audio.play().catch( () => {} );
+}
+
 const BLOCK_COLORS = [ 'gray', 'red', 'yellow', 'cyan', 'magenta', 'hotpink', 'green' ];
 const BLOCK_COLS = 8;
 const BLOCK_ROWS = 7;
@@ -90,6 +102,7 @@ function checkBlockCollisions() {
       block.explodeStartTime = performance.now();
       score += BLOCK_SCORE;
       hitCount++;
+      playSound( breakSound );
 
       if ( hitCount % 5 === 0 ) {
         const newSpeed = Math.min( ball.speed * 1.1, ball.baseSpeed * 1.5 );
@@ -124,14 +137,17 @@ function update() {
   if ( ball.x - ball.radius < 0 ) {
     ball.x = ball.radius;
     ball.dx = -ball.dx;
+    playSound( bounceSound );
   } else if ( ball.x + ball.radius > canvas.width ) {
     ball.x = canvas.width - ball.radius;
     ball.dx = -ball.dx;
+    playSound( bounceSound );
   }
 
   if ( ball.y - ball.radius < 0 ) {
     ball.y = ball.radius;
     ball.dy = -ball.dy;
+    playSound( bounceSound );
   }
 
   if ( ball.dy > 0 &&
@@ -146,6 +162,7 @@ function update() {
     ball.dx = ball.speed * Math.sin( bounceAngle );
     ball.dy = -ball.speed * Math.cos( bounceAngle );
     ball.y = paddle.y - ball.radius;
+    playSound( bounceSound );
   }
 
   checkBlockCollisions();
