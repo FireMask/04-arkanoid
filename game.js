@@ -61,6 +61,15 @@ function checkBlockCollisions() {
       block.explodeStartTime = performance.now();
       score += BLOCK_SCORE;
       hitCount++;
+
+      if ( hitCount % 5 === 0 ) {
+        const newSpeed = Math.min( ball.speed * 1.1, ball.baseSpeed * 1.5 );
+        const ratio = newSpeed / ball.speed;
+        ball.dx *= ratio;
+        ball.dy *= ratio;
+        ball.speed = newSpeed;
+      }
+
       break;
     }
   }
