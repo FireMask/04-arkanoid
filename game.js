@@ -74,6 +74,10 @@ const HIGH_SCORE_KEY = 'arkanoid-high-score';
 let highScore = parseInt( localStorage.getItem( HIGH_SCORE_KEY ), 10 ) || 0;
 
 function resetGame() {
+  currentLevelIndex = 0;
+
+  paddle.x = PADDLE_START_X;
+
   ball.x = canvas.width / 2;
   ball.y = paddle.y - 20;
   ball.speed = ball.baseSpeed;
