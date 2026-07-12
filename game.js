@@ -37,6 +37,35 @@ for ( let row = 0; row < BLOCK_ROWS; row++ ) {
   }
 }
 
+let score = 0;
+let hitCount = 0;
+const BLOCK_SCORE = 10;
+
+function checkBlockCollisions() {
+  for ( const block of blocks ) {
+    if ( block.destroyed ) continue;
+
+    const closestX = Math.min( Math.max( ball.x, block.x ), block.x + block.width );
+    const closestY = Math.min( Math.max( ball.y, block.y ), block.y + block.height );
+    const dx = ball.x - closestX;
+    const dy = ball.y - closestY;
+
+    if ( dx * dx + dy * dy <= ball.radius * ball.radius ) {
+      if ( Math.abs( dx ) > Math.abs( dy ) ) {
+        ball.dx = -ball.dx;
+      } else {
+        ball.dy = -ball.dy;
+      }
+
+      block.destroyed = true;
+      block.explodeStartTime = performance.now();
+      score += BLOCK_SCORE;
+      hitCount++;
+      break;
+    }
+  }
+}
+
 function update() {
   ball.x += ball.dx;
   ball.y += ball.dy;
@@ -67,6 +96,8 @@ function update() {
     ball.dy = -ball.speed * Math.cos( bounceAngle );
     ball.y = paddle.y - ball.radius;
   }
+
+  checkBlockCollisions();
 }
 
 function render() {
