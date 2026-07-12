@@ -49,6 +49,9 @@ let hitCount = 0;
 let gameState = 'playing';
 const BLOCK_SCORE = 10;
 
+const HIGH_SCORE_KEY = 'arkanoid-high-score';
+let highScore = parseInt( localStorage.getItem( HIGH_SCORE_KEY ), 10 ) || 0;
+
 function resetGame() {
   ball.x = canvas.width / 2;
   ball.y = paddle.y - 20;
@@ -105,6 +108,11 @@ function endGame( state ) {
   gameState = state;
   overlayTitle.textContent = state === 'win' ? 'You Win' : 'Game Over';
   overlay.classList.remove( 'hidden' );
+
+  if ( score > highScore ) {
+    highScore = score;
+    localStorage.setItem( HIGH_SCORE_KEY, String( highScore ) );
+  }
 }
 
 function update() {
@@ -171,6 +179,14 @@ function render() {
     const frameIndex = Math.min( Math.floor( elapsed / ( EXPLOSION_DURATION / 4 ) ), 3 );
     drawFrame( ctx, EXPLOSION_FRAMES[ block.color ][ frameIndex ], block.x, block.y, block.width, block.height );
   }
+
+  ctx.fillStyle = '#fff';
+  ctx.font = '18px sans-serif';
+  ctx.textBaseline = 'top';
+  ctx.textAlign = 'left';
+  ctx.fillText( 'Score: ' + score, 10, 10 );
+  ctx.textAlign = 'right';
+  ctx.fillText( 'High Score: ' + highScore, canvas.width - 10, 10 );
 }
 
 function loop() {
