@@ -1,6 +1,6 @@
 # 02 — Level System
 
-**State:** Approved
+**State:** Implemented
 **Dependencies:** [01-core-gameplay](01-core-gameplay.md)
 **Date:** 2026-07-12
 
