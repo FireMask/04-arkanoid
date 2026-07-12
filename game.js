@@ -66,6 +66,9 @@ let hitCount = 0;
 let gameState = 'playing';
 const BLOCK_SCORE = 10;
 
+const LEVEL_TRANSITION_DURATION = 750;
+let levelTransitionStartTime = null;
+
 const HIGH_SCORE_KEY = 'arkanoid-high-score';
 let highScore = parseInt( localStorage.getItem( HIGH_SCORE_KEY ), 10 ) || 0;
 
@@ -180,7 +183,12 @@ function update() {
   const allCleared = blocks.every( ( block ) =>
     block.destroyed && performance.now() - block.explodeStartTime >= EXPLOSION_DURATION );
   if ( allCleared ) {
-    endGame( 'win' );
+    if ( currentLevelIndex < 4 ) {
+      gameState = 'levelTransition';
+      levelTransitionStartTime = performance.now();
+    } else {
+      endGame( 'win' );
+    }
   }
 }
 
