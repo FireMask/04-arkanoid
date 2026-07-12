@@ -144,6 +144,13 @@ function update() {
 
   if ( ball.y - ball.radius > canvas.height ) {
     endGame( 'gameover' );
+    return;
+  }
+
+  const allCleared = blocks.every( ( block ) =>
+    block.destroyed && performance.now() - block.explodeStartTime >= EXPLOSION_DURATION );
+  if ( allCleared ) {
+    endGame( 'win' );
   }
 }
 
