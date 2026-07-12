@@ -1,0 +1,15 @@
+{
+  "levels": [
+    {
+      "rows": [
+        ["gray", "gray", "gray", "gray", "gray", "gray", "gray", "gray"],
+        ["red", "red", "red", "red", "red", "red", "red", "red"],
+        ["yellow", "yellow", "yellow", "yellow", "yellow", "yellow", "yellow", "yellow"],
+        ["cyan", "cyan", "cyan", "cyan", "cyan", "cyan", "cyan", "cyan"],
+        ["magenta", "magenta", "magenta", "magenta", "magenta", "magenta", "magenta", "magenta"],
+        ["hotpink", "hotpink", "hotpink", "hotpink", "hotpink", "hotpink", "hotpink", "hotpink"],
+        ["green", "green", "green", "green", "green", "green", "green", "green"]
+      ]
+    }
+  ]
+}
