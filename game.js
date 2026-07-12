@@ -217,6 +217,14 @@ function render() {
   ctx.fillText( 'Score: ' + score, 10, 10 );
   ctx.textAlign = 'right';
   ctx.fillText( 'High Score: ' + highScore, canvas.width - 10, 10 );
+
+  if ( gameState === 'levelTransition' ) {
+    ctx.fillStyle = '#fff';
+    ctx.font = '36px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText( 'Level ' + ( currentLevelIndex + 2 ), canvas.width / 2, canvas.height / 2 );
+  }
 }
 
 function loop() {
