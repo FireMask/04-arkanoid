@@ -1,6 +1,10 @@
 const canvas = document.getElementById( 'game' );
 const ctx = canvas.getContext( '2d' );
 
+const overlay = document.getElementById( 'overlay' );
+const overlayTitle = document.getElementById( 'overlay-title' );
+const restartBtn = document.getElementById( 'restart-btn' );
+
 const paddle = { x: ( canvas.width - 162 ) / 2, y: canvas.height - 30, width: 162, height: 14 };
 
 canvas.addEventListener( 'mousemove', ( e ) => {
@@ -9,9 +13,7 @@ canvas.addEventListener( 'mousemove', ( e ) => {
   paddle.x = Math.min( Math.max( mouseX - paddle.width / 2, 0 ), canvas.width - paddle.width );
 } );
 
-const ball = { x: canvas.width / 2, y: paddle.y - 20, radius: 8, baseSpeed: 4, speed: 4, dx: 0, dy: 0 };
-ball.dx = ball.speed * Math.cos( -Math.PI / 3 );
-ball.dy = ball.speed * Math.sin( -Math.PI / 3 );
+const ball = { x: 0, y: 0, radius: 8, baseSpeed: 4, speed: 4, dx: 0, dy: 0 };
 
 const BLOCK_COLORS = [ 'gray', 'red', 'yellow', 'cyan', 'magenta', 'hotpink', 'green' ];
 const BLOCK_COLS = 8;
@@ -22,24 +24,48 @@ const BLOCK_PADDING = 6;
 const BLOCK_OFFSET_TOP = 60;
 const BLOCK_OFFSET_LEFT = ( canvas.width - ( BLOCK_COLS * BLOCK_WIDTH + ( BLOCK_COLS - 1 ) * BLOCK_PADDING ) ) / 2;
 
-const blocks = [];
-for ( let row = 0; row < BLOCK_ROWS; row++ ) {
-  for ( let col = 0; col < BLOCK_COLS; col++ ) {
-    blocks.push( {
-      x: BLOCK_OFFSET_LEFT + col * ( BLOCK_WIDTH + BLOCK_PADDING ),
-      y: BLOCK_OFFSET_TOP + row * ( BLOCK_HEIGHT + BLOCK_PADDING ),
-      width: BLOCK_WIDTH,
-      height: BLOCK_HEIGHT,
-      color: BLOCK_COLORS[ row ],
-      destroyed: false,
-      explodeStartTime: null,
-    } );
+function createBlocks() {
+  const created = [];
+  for ( let row = 0; row < BLOCK_ROWS; row++ ) {
+    for ( let col = 0; col < BLOCK_COLS; col++ ) {
+      created.push( {
+        x: BLOCK_OFFSET_LEFT + col * ( BLOCK_WIDTH + BLOCK_PADDING ),
+        y: BLOCK_OFFSET_TOP + row * ( BLOCK_HEIGHT + BLOCK_PADDING ),
+        width: BLOCK_WIDTH,
+        height: BLOCK_HEIGHT,
+        color: BLOCK_COLORS[ row ],
+        destroyed: false,
+        explodeStartTime: null,
+      } );
+    }
   }
+  return created;
 }
+
+let blocks = createBlocks();
 
 let score = 0;
 let hitCount = 0;
+let gameState = 'playing';
 const BLOCK_SCORE = 10;
+
+function resetGame() {
+  ball.x = canvas.width / 2;
+  ball.y = paddle.y - 20;
+  ball.speed = ball.baseSpeed;
+  ball.dx = ball.speed * Math.cos( -Math.PI / 3 );
+  ball.dy = ball.speed * Math.sin( -Math.PI / 3 );
+
+  blocks = createBlocks();
+  score = 0;
+  hitCount = 0;
+  gameState = 'playing';
+  overlay.classList.add( 'hidden' );
+}
+
+restartBtn.addEventListener( 'click', resetGame );
+
+resetGame();
 
 function checkBlockCollisions() {
   for ( const block of blocks ) {
@@ -75,7 +101,15 @@ function checkBlockCollisions() {
   }
 }
 
+function endGame( state ) {
+  gameState = state;
+  overlayTitle.textContent = state === 'win' ? 'You Win' : 'Game Over';
+  overlay.classList.remove( 'hidden' );
+}
+
 function update() {
+  if ( gameState !== 'playing' ) return;
+
   ball.x += ball.dx;
   ball.y += ball.dy;
 
@@ -107,6 +141,10 @@ function update() {
   }
 
   checkBlockCollisions();
+
+  if ( ball.y - ball.radius > canvas.height ) {
+    endGame( 'gameover' );
+  }
 }
 
 function render() {
