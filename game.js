@@ -106,8 +106,16 @@ function render() {
   drawSprite( ctx, 'ball', ball.x - ball.radius, ball.y - ball.radius, ball.radius * 2, ball.radius * 2 );
 
   for ( const block of blocks ) {
-    if ( block.destroyed ) continue;
-    drawSprite( ctx, 'block_' + block.color, block.x, block.y, block.width, block.height );
+    if ( !block.destroyed ) {
+      drawSprite( ctx, 'block_' + block.color, block.x, block.y, block.width, block.height );
+      continue;
+    }
+
+    const elapsed = performance.now() - block.explodeStartTime;
+    if ( elapsed >= EXPLOSION_DURATION ) continue;
+
+    const frameIndex = Math.min( Math.floor( elapsed / ( EXPLOSION_DURATION / 4 ) ), 3 );
+    drawFrame( ctx, EXPLOSION_FRAMES[ block.color ][ frameIndex ], block.x, block.y, block.width, block.height );
   }
 }
 
