@@ -27,7 +27,6 @@ function playSound( audio ) {
   audio.play().catch( () => {} );
 }
 
-const BLOCK_COLORS = [ 'gray', 'red', 'yellow', 'cyan', 'magenta', 'hotpink', 'green' ];
 const BLOCK_COLS = 8;
 const BLOCK_ROWS = 7;
 const BLOCK_WIDTH = 90;
@@ -36,16 +35,22 @@ const BLOCK_PADDING = 6;
 const BLOCK_OFFSET_TOP = 60;
 const BLOCK_OFFSET_LEFT = ( canvas.width - ( BLOCK_COLS * BLOCK_WIDTH + ( BLOCK_COLS - 1 ) * BLOCK_PADDING ) ) / 2;
 
+let currentLevelIndex = 0;
+
 function createBlocks() {
   const created = [];
+  const rows = LEVELS.levels[ currentLevelIndex ].rows;
   for ( let row = 0; row < BLOCK_ROWS; row++ ) {
     for ( let col = 0; col < BLOCK_COLS; col++ ) {
+      const color = rows[ row ][ col ];
+      if ( color === null ) continue;
+
       created.push( {
         x: BLOCK_OFFSET_LEFT + col * ( BLOCK_WIDTH + BLOCK_PADDING ),
         y: BLOCK_OFFSET_TOP + row * ( BLOCK_HEIGHT + BLOCK_PADDING ),
         width: BLOCK_WIDTH,
         height: BLOCK_HEIGHT,
-        color: BLOCK_COLORS[ row ],
+        color: color,
         destroyed: false,
         explodeStartTime: null,
       } );
