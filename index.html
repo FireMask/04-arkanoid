@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Arkanoid</title>
+  <style>
+    html, body {
+      margin: 0;
+      height: 100%;
+      background: #111;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    canvas {
+      background: #000;
+      display: block;
+    }
+    .stage {
+      position: relative;
+    }
+    .overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      background: rgba( 0, 0, 0, 0.75 );
+      color: #fff;
+      font-family: sans-serif;
+    }
+    .overlay.hidden {
+      display: none;
+    }
+    .overlay h1 {
+      margin: 0;
+      font-size: 48px;
+    }
+    .overlay button {
+      font-size: 20px;
+      padding: 8px 24px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="stage">
+    <canvas id="game" width="800" height="600"></canvas>
+    <div id="overlay" class="overlay hidden">
+      <h1 id="overlay-title"></h1>
+      <button id="restart-btn">Restart</button>
+    </div>
+  </div>
+
+  <script src="assets/spritesheet.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>

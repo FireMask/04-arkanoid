@@ -1,6 +1,6 @@
 # 01 — Core Gameplay
 
-**State:** Draft
+**State:** Implemented
 **Dependencies:** None (first spec in the project)
 **Date:** 2026-07-11
 
@@ -68,20 +68,20 @@ localStorage key:
 
 ## Acceptance criteria
 
-- [ ] Opening `index.html` directly in a browser (or via a static server) loads and runs the game with no console errors.
-- [ ] The paddle's horizontal position follows the mouse 1:1 and never moves outside the canvas bounds.
-- [ ] The ball bounces correctly off the left, right, and top canvas walls.
-- [ ] The ball bounces off the paddle, with the exit angle varying based on where it hit the paddle (edges = sharper angle, center = near-vertical).
-- [ ] The level renders an 8×7 grid of blocks, one color per row, using all 7 sprite colors.
-- [ ] Hitting a block plays its `EXPLOSION_FRAMES` animation, then removes the block from both rendering and collision.
-- [ ] Each block destroyed increases `score` by the same flat amount.
-- [ ] Every 5 blocks hit, ball speed increases by 10%, up to a hard cap of 1.5x the initial speed (verified it does not exceed the cap).
-- [ ] Letting the ball fall past the paddle immediately ends the game, showing a centered "Game Over" overlay.
-- [ ] Destroying all blocks ends the game, showing a centered "You Win" overlay.
-- [ ] Both end-state overlays include a restart control that resets the game to its initial state without a page reload.
-- [ ] The HUD displays the current score and the high score at all times during play.
-- [ ] When a run's score exceeds the stored high score, the new high score is saved to `localStorage` and still shows correctly after a page reload.
-- [ ] `ball-bounce.mp3` plays on wall/paddle bounces; `break-sound.mp3` plays on block destruction.
+- [x] Opening `index.html` directly in a browser (or via a static server) loads and runs the game with no console errors.
+- [x] The paddle's horizontal position follows the mouse 1:1 and never moves outside the canvas bounds.
+- [x] The ball bounces correctly off the left, right, and top canvas walls.
+- [x] The ball bounces off the paddle, with the exit angle varying based on where it hit the paddle (edges = sharper angle, center = near-vertical).
+- [x] The level renders an 8×7 grid of blocks, one color per row, using all 7 sprite colors.
+- [x] Hitting a block plays its `EXPLOSION_FRAMES` animation, then removes the block from both rendering and collision.
+- [x] Each block destroyed increases `score` by the same flat amount.
+- [x] Every 5 blocks hit, ball speed increases by 10%, up to a hard cap of 1.5x the initial speed (verified it does not exceed the cap).
+- [x] Letting the ball fall past the paddle immediately ends the game, showing a centered "Game Over" overlay.
+- [x] Destroying all blocks ends the game, showing a centered "You Win" overlay.
+- [x] Both end-state overlays include a restart control that resets the game to its initial state without a page reload.
+- [x] The HUD displays the current score and the high score at all times during play.
+- [x] When a run's score exceeds the stored high score, the new high score is saved to `localStorage` and still shows correctly after a page reload.
+- [x] `ball-bounce.mp3` plays on wall/paddle bounces; `break-sound.mp3` plays on block destruction.
 
 ## Decisions taken and discarded
 
