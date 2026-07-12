@@ -238,6 +238,8 @@ function render() {
   ctx.textBaseline = 'top';
   ctx.textAlign = 'left';
   ctx.fillText( 'Score: ' + score, 10, 10 );
+  ctx.textAlign = 'center';
+  ctx.fillText( 'Level ' + ( currentLevelIndex + 1 ), canvas.width / 2, 10 );
   ctx.textAlign = 'right';
   ctx.fillText( 'High Score: ' + highScore, canvas.width - 10, 10 );
 
