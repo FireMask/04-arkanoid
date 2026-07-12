@@ -1,6 +1,6 @@
 # 01 — Core Gameplay
 
-**State:** Draft
+**State:** Approved
 **Dependencies:** None (first spec in the project)
 **Date:** 2026-07-11
 
